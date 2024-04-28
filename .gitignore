@@ -1,0 +1,9 @@
+*.exe
+
+./*.cpp
+
+./1*
+
+./.cph
+
+./Templates/All-in-at-the-River
