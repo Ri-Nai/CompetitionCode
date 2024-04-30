@@ -54,8 +54,32 @@ namespace T
                 Nodes[now].res.push_back(id);
             }
         } Tr;
-        vector<int> inq;
-        vector<int> cnt;
+        struct BIT
+        {
+            vector<int> C;
+            int n;
+            void init(int len)
+            {
+                C.resize(len + 1);
+                n = len;
+            }
+            void Add(int x, int y)
+            {
+                while (x <= n)
+                    C[x] += y, x += x & -x;
+            }
+            int Sum(int x)
+            {
+                int res = 0;
+                while (x)
+                    res += C[x], x -= x & -x;
+                return res;
+            }
+        } T;
+        int get_size() { return Tr.Nodes.size(); }
+        vector<vector<int>> E;
+        vector<int> L, R;
+        vector<int> pos;
         void Build()
         {
             queue<int> Q;
@@ -79,33 +103,6 @@ namespace T
                     Tr.Nodes[v].fail = get_fail(node.fail, c);
                     Q.push(v); ++inq[v];
                 }
-            }
-        }
-        void Query(string s, vector<int> &ans)
-        {
-            int now = 0;
-            for (auto c : s)
-                cnt[now = Tr.Nodes[now].nxt[c - 'a']] |= 1;
-        }
-        auto Topo(vector<int> &ans)
-        {
-            queue<int> Q;
-            int res = 0;
-            for (int i = 1; i < inq.size(); ++i)
-                if (!inq[i])
-                    Q.push(i);
-            while (!Q.empty())
-            {
-                int u = Q.front();
-                Q.pop();
-                auto &node = Tr.Nodes[u];
-                int v = node.fail;
-                for (int id : node.res)
-                    ans[id] += cnt[u];
-                cnt[v] |= cnt[u];
-                cnt[u] = 0;
-                if (!--inq[v])
-                    Q.push(v);
             }
         }
     } AC;
