@@ -9,7 +9,7 @@
     "code-runner.executorMap":
     {
         // "cpp": "g++ $fileName -o $fileNameWithoutExt.exe -Wall -O2 -m32  -std=c++98 -fexec-charset=GBK && $dir$fileNameWithoutExt.exe"
-        "cpp": "g++ $fileName -o $fileNameWithoutExt.exe -m32 -Wall -static-libgcc -std=c++17 -fexec-charset=GBK && $dir$fileNameWithoutExt.exe"
+        "cpp": "g++ $fileName -o $fileNameWithoutExt.exe -Wall -static-libgcc -std=c++20 -fexec-charset=GBK && $dir$fileNameWithoutExt.exe"
 
     }, // 右键run code时运行的命令；未注释的仅适用于PowerShell（Win10默认）和pwsh，文件名中有空格也可以编译运行；注释掉的适用于cmd（win7默认）、PS和bash，但文件名中有空格时无法运行
     "code-runner.saveFileBeforeRun": true, // run code前保存
@@ -114,12 +114,13 @@
         "typeinfo": "cpp",
         "valarray": "cpp",
         "variant": "cpp",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "math.h": "c"
     },
     "cph.general.defaultLanguage": "cpp",
     "cph.general.defaultLanguageTemplateFileLocation": "D:\\Code\\Competition\\Template.cpp",    // 这是你的模板文件路径
     "cph.general.firstTime": false,
-    "cph.language.cpp.SubmissionCompiler": "GNU G++17 6.4.0",   // 使用 C++14 标准
+    "cph.language.cpp.SubmissionCompiler": "GNU G++17 7.3.0",   // 使用 C++14 标准
     "cph.language.cpp.Args": "-std=c++17",
     "C_Cpp.errorSquiggles": "enabled" // -O2
 
