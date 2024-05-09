@@ -1,4 +1,5 @@
 *.exe
 .cph
+.vscode
 Templates/All-in-at-the-River
 1*.*
