@@ -1,78 +1,37 @@
-#include<bits/stdc++.h>
-using namespace std;
+#include <stdio.h>
+#include <stdlib.h>
+#define M 5005
 typedef long long ll;
-typedef pair<int,int> Pr;
-#define End(X) return cout<<(X)<<'\n',void()
-bool Nai;
-int rd()
+int id[M], X[M], Y[M];
+int quadrant(int x, int y)
 {
-    int res=0,f=1;char c;
-    do (c=getchar())=='-'&&(f=-1);while(!isdigit(c));
-    while(isdigit(c))res=(c^48)+(res<<1)+(res<<3),c=getchar();
-    return res*f;
+    return (y < 0) << 1 | (x < 0) ^ (y < 0);
 }
-namespace T
+int cmp(const void *a, const void *b)
 {
-    void solve()
-    {
-        int n=rd();
-        vector<vector<int>>cnt(n+1);
-        vector<vector<int>>pre(n+1);
-        vector<int>len(n+1),prelen(n+1);
-        for(int i=1;i<=n;++i)
-        {
-            char c;
-            cnt[i].assign(26,0);
-            pre[i].assign(26,0);
-            while((c=getchar())!='\n')
-                ++cnt[i][c-'a'],++len[i];
-        }
-        prelen[n]=len[n];
-        pre[n]=cnt[n];
-        for(int i=n;i>=2;--i)
-        {
-            int l1=len[i-1];
-            int l2=len[i];
-            int pl=prelen[i];
-            int p=l2/l1,q=l2%l1;
-            int u=pl/l1,v=pl%l1;
-            prelen[i-1]=max(v,q);
-            int now=0;
-            for(int j=0;j<26;++j)
-            {
-                int t1=cnt[i][j]-p*cnt[i-1][j];
-                int t2=pre[i][j]-u*cnt[i-1][j];
-                // cout<<i<<' '<<j<<' '<<'\n';
-                if(t1<0 or t2<0)End("NO");
-                if(v>q and t1>t2)End("NO");
-                if(q>v and t2>t1)End("NO");
-                pre[i-1][j]=max(t1,t2);
-                now+=pre[i-1][j];
-                if(cnt[i-1][j]<pre[i-1][j])End("NO");
-            }
-            if(now!=prelen[i-1])End("NO");
-        }
-        puts("YES");
-        string s;
-        for(int j=0;j<26;++j)
-            for(int k=1;k<=pre[1][j];++k)
-                s+=j+'a';
-        for(int j=0;j<26;++j)
-            for(int k=1;k<=cnt[1][j]-pre[1][j];++k)
-                s+=j+'a';
-        for(int i=1;i<=n;++i)
-        {
-            string t;
-            for(int j=0;j<len[i];++j)
-                t+=s[j%s.size()];
-            cout<<t<<'\n';
-            s=t;
-        }
-    }
+    int p = *(int *)a;
+    int q = *(int *)b;
+    int qp = quadrant(X[p], Y[p]);
+    int qq = quadrant(X[q], Y[q]);
+    if (qp != qq)
+        return qp - qq;
+    ll t = 1ll * X[p] * Y[q] - 1ll * X[q] * Y[p];
+    if (t == 0)
+        return p - q;
+    return -t;
 }
-bool Ri;
+int cmp2(const void *a, const void *b)
+{
+    return cmp(a, b) < 0? -1 : 1;
+}
 int main()
 {
-    int t;cin>>t;while(t--)
-    T::solve();
+    int n;
+    // freopen("1.in", "r", stdin);
+    scanf("%d", &n);
+    for (int i = 1; i <= n; ++i)
+        scanf("%d%d", &X[id[i] = i], &Y[i]);
+    qsort(id + 1, n, sizeof(int), cmp2);
+    for (int i = 1; i <= n; ++i)
+        printf("%d\n", id[i]);
 }

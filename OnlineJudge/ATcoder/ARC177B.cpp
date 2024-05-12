@@ -19,25 +19,24 @@ namespace T
 {
     void solve()
     {
+        int n = rd();
         string s;
         cin >> s;
-        int cnt = 0;
-        ll ans = 0;
-        for (int i = 0; i < s.size(); ++i)
-            if (s[i] == '0')
-            {
-                if (cnt > 0)
-                    ans += 1 + (cnt);
-            }
-            else ++cnt;
-        cout << ans <<'\n';
+        string ans;
+        for (int i = n - 1; i >= 0; --i)
+        {
+            ans += string(i + 1, 'A');
+            ans += string(i + (s[i] == '0'), 'B');
+        }
+        cout << ans.size() << endl
+             << ans << endl;
     }
 }
 bool Ri;
 int main()
 {
     // cout << (&Ri - &Nai) / 8.0 / 1024 / 1024 << '\n';
-    ios::sync_with_stdio(0);
-    int t; cin >> t; while(t--)
+    // ios::sync_with_stdio(0);
+    // int t; cin >> t; while(t--)
     T::solve();
 }

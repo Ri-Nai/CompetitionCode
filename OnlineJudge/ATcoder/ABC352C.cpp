@@ -20,18 +20,14 @@ namespace T
     void solve()
     {
         int n = rd();
-        bool flag = 1;
-        vector<int> A(n + 1);
+        ll ans = 0, mx = 0;
         for (int i = 1; i <= n; ++i)
         {
-            A[i] = rd();
+            int x = rd(), y = rd();
+            ans += x;
+            mx = max(mx, 0ll + y - x);
         }
-        for (int i = 1; i <= n; ++i)
-        {
-            if (i == A[A[i]])
-                End(2);
-        }
-        End(3);
+        cout << ans + mx << '\n';
     }
 }
 bool Ri;
@@ -39,8 +35,6 @@ int main()
 {
     // cout << (&Ri - &Nai) / 8.0 / 1024 / 1024 << '\n';
     // ios::sync_with_stdio(0);
-    int t;
-    cin >> t;
-    while (t--)
-        T::solve();
+    // int t; cin >> t; while(t--)
+    T::solve();
 }
