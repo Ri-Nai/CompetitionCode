@@ -31,7 +31,7 @@ namespace T
             vector<int> opt;
             vector<vector<int>> key, ans_pos;
             vector<vector<ll>> ans_step;
-            Solution(int n_, int limit_) : n(n_), limit(limit_), len(sqrt(n) + 1)
+            Solution(int n_, int limit_) : n(n_), limit(limit_), len(sqrt(n))
             {
                 int blk = n / len + 1;
                 key = vector<vector<int>>(blk, {0, limit});
@@ -79,20 +79,19 @@ namespace T
                     }
                     sort(vec.begin(), vec.end());
                     vec.erase(unique(vec.begin(), vec.end()), vec.end());
-                    for (auto x : vec)
+                    for (auto pos : vec)
                     {
                         ll step = 0;
-                        int pos = x;
                         work_range(l, r, pos, step);
                         ans_pos[id].push_back(pos);
                         ans_step[id].push_back(step);
                     }
                 };
-                int l = 1;
+                int l = 1, r;
                 while (l <= n)
                 {
                     int id = l / len;
-                    int r = (id + 1) * len - 1;
+                    r = (id + 1) * len - 1;
                     if (r > n)
                         r = n;
                     build_range(id, l, r);
@@ -113,8 +112,6 @@ namespace T
                     return change(pos, step, ans_pos[id][0], ans_step[id][0]);
                 auto Get = [&](int l, int r, int p, auto L, auto R)
                 {
-                    if (r == l)
-                        return L;
                     return (R - L) / (r - l) * (p - l) + L;
                 };
                 change(pos, step,
