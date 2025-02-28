@@ -1,0 +1,82 @@
+\begin{problem}{存在证明的自动机械}{standard input}{standard output}{1 second}{256 megabytes}
+
+为了抵达命运石之门，Maho 必须研发出一台可行的 \texttt{时光机器}。
+
+一台 \texttt{机器} 由 \(n\) 个 \texttt{齿轮} 和 \(m\) 条链接这些 \texttt{齿轮} 的
+链条构成
+
+一台 \texttt{时光机器} 需要满足以下两个条件：
+
+\begin{enumerate}
+    \item \textbf{唯一的二进制地址分配}：每个 \texttt{齿轮} 分配一个唯一的二进制地址，所有 \texttt{齿轮} 的二进制地址长度均为 \(d\)，即每个地址由 \(d\) 位二进制数字构成，地址不重复且不存在空地址。
+
+    例如，当 \(d = 3\) 时，可能的地址包括：\texttt{000}, \texttt{001}, \texttt{010}, \texttt{011}, \texttt{100}, \texttt{101}, \texttt{110}, \texttt{111}。为满足要求，我们需要把这些地址分配给 8 个 \texttt{齿轮}
+
+    \item \textbf{链接条件}：两个 \texttt{齿轮} 之间 \textbf{当且仅当} 它们的二进制地址有且只有一位不同，才有链接。
+
+    例如，若 \texttt{齿轮} 的地址为 \texttt{001} 和 \texttt{100}，则它们不应有链接；若地址为 \texttt{010} 和 \texttt{000}，则应有链接。
+\end{enumerate}
+
+给定一台 \texttt{机器} 的 \texttt{齿轮} 及其链接关系，你的任务是判断是否能够将长度为某个 $d$ 的所有二进制地址分配给所有 \texttt{齿轮} ，以使该 \texttt{机器} 成为一台 \texttt{时光机器}
+
+\textbf{\textit{El Psy Kongroo}}
+
+
+\InputFile
+
+\begin{itemize}
+    \item 第一行包含两个整数 \(n\) 和 \(m\) (\(2 \le n \le 2 \cdot 10^5\), \(1 \le m \le 2 \cdot 10^5\))，分别为 \texttt{齿轮} 数量与链接数量。
+    \item 以下 \(m\) 行，每行两个整数 \(a\) 和 \(b\) (\(1 \le a, b \le n\), \(a \neq b\))，表示第 \(a\) 和第 \(b\) 个 \texttt{齿轮} 之间有链条链接。
+\end{itemize}
+
+保证每对 \texttt{齿轮} 之间最多只有一条链条。
+
+\OutputFile
+
+输出包含一行
+\begin{itemize}
+    \item
+    若能构造 \texttt{时光机器} ，则输出一个字符串"\texttt{yes}"
+    \item
+    否则输出一个字符串"\texttt{no}"
+\end{itemize}
+
+均不包含引号，区分大小写，"\texttt{Yes}", "\texttt{NO}"等答案均不得分
+
+\Example
+
+\begin{example}
+\exmpfile{example.01}{example.01.a}%
+\exmpfile{example.02}{example.02.a}%
+\end{example}
+
+\Note
+
+对于样例1，我们需要长度为 2 的所有二进制地址。
+
+我们可以分别为齿轮 1, 2, 3, 4分配 \texttt{00}, \texttt{01}, \texttt{11}, \texttt{10} 使其满足连边的限制
+
+由于齿轮 3 和 齿轮 4 之间缺少链接，所以本样例答案为"\texttt{no}"
+
+
+对于样例2，我们需要长度为 3 的所有二进制地址。
+可以证明以下地址构造为一组可行解
+
+1: \texttt{000}
+
+2: \texttt{001}
+
+3: \texttt{010}
+
+4: \texttt{110}
+
+5: \texttt{111}
+
+6: \texttt{011}
+
+7: \texttt{100}
+
+8: \texttt{101}
+
+\end{problem}
+

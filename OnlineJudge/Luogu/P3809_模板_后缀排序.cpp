@@ -67,8 +67,6 @@ namespace T
             height[X[i]] = k;
         }
         for (int i = 1; i <= n; ++i)
-                cout << X[i] << " " + S.substr(SA[X[i]], S.size() - SA[X[i]]) << ' ' << height[X[i]] << "\n";
-        for (int i = 1; i <= n; ++i)
             cout << i << " " + S.substr(SA[i], S.size() - SA[i]) << ' ' << height[i] << "\n";
         for (int i = 1; i <= n; ++i)
             cout << height[i] << " \n"[i == n];

@@ -16,8 +16,8 @@ int rd()
 }
 namespace Max_Flow
 {
-    const int N = 205;
-    const int M = 1e4 + 5;
+    const int M = 100005 + 5;
+    const int N = M;
     int n, m, S, T;
     int tot = 1, head[N], Now[N], nxt[M], V[M], W[M];
     int bfn[N];
@@ -27,6 +27,17 @@ namespace Max_Flow
         nxt[++tot] = head[u];
         V[head[u] = tot] = v;
         W[tot] = w;
+    }
+    void clear()
+    {
+        tot = 1;
+        for (int i = 1; i <= n; ++i)
+            head[i] = 0;
+    }
+    void Add_net(int u, int v, int w)
+    {
+        Add(u, v, w);
+        Add(v, u, 0);
     }
     bool BFS()
     {
@@ -92,17 +103,5 @@ namespace Max_Flow
                 res += now;
         }
         return res;
-    }
-    void solve()
-    {
-        cin >> n >> m >> S >> T;
-        for (int i = 1; i <= m; ++i)
-        {
-            int u, v, w;
-            cin >> u >> v >> w;
-            Add(u, v, w);
-            Add(v, u, 0);
-        }
-        cout << max_flow() << '\n';
     }
 }

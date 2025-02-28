@@ -70,7 +70,6 @@ void Solve(int u, int f)
         if (v ^ f)
             Solve(v, u), sum[u] += dp[v];
     dp[u] = sum[u];
-    // int now=Sum(L[fa[u][0]])+Sum(L[u]);//据我所知这个应该为0
     for (int i = Head[u]; i; i = NT[i])
     {
         int fu = Sum(L[V[i]]), fv = Sum(L[U[i]]);

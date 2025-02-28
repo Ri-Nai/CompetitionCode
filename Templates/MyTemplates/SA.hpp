@@ -22,7 +22,7 @@ struct SA_Array
     void init_SA()
     {
         int m = 128;
-        vector<int> cnt(m + 1), X(n * 2 + 1), Y(n * 2 + 1);
+        vector<int> cnt(m + 1), X(n + 1), Y(n + 1);
         for (int i = 1; i <= n; ++i)
             ++cnt[X[i] = S[i]];
         for (int i = 1; i < m; ++i)
@@ -37,10 +37,10 @@ struct SA_Array
             for (int i = 1; i <= n; ++i)
                 if (SA[i] > l)
                     Y[++tot] = SA[i] - l;
-            cnt.assign(m, 0);
+            cnt.assign(m + 1, 0);
             for (int i = 1; i <= n; ++i)
                 ++cnt[X[i]];
-            for (int i = 1; i < m; ++i)
+            for (int i = 1; i <= m; ++i)
                 cnt[i] += cnt[i - 1];
             for (int i = n; i >= 1; --i)
                 SA[cnt[X[Y[i]]]--] = Y[i];
@@ -88,5 +88,11 @@ struct SA_Array
         ++l;
         int p = lg2[r - l + 1];
         return min(ST[l][p], ST[r - (1 << p) + 1][p]);
+    }
+    int Query_Range(int l1, int r1, int l2, int r2)
+    {
+        int len = min(r1 - l1, r2 - l2);
+        int ans = Query_LCP(l1, l2);
+        return min(len, ans);
     }
 };

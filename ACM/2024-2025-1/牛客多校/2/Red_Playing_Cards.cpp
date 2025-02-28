@@ -24,11 +24,17 @@ void solve()
     for (int i = 1; i <= 2 * n; ++i)
         A[i] = rd();
     vector<int> ans(2 * n + 6, -1);
+    for (int i = 1; i <= 2 * n; ++i)
+    {
+        if (!L[A[i]])
+            L[A[i]] = i;
+        else
+            R[L[A[i]]] = i + 1;
+    }
     auto Solve = [&](auto self, int l, int r, int x) -> int
     {
         if (ans[l] != -1)
             return ans[l];
-        // cout << l << ' ' << r << ' ' << x << '\n';
         vector<int> dp(2 * n + 6);
         for (int i = l + 1; i <= r; ++i)
         {
@@ -41,13 +47,6 @@ void solve()
         }
         return (ans[l] = dp[r]);
     };
-    for (int i = 1; i <= 2 * n; ++i)
-    {
-        if (!L[A[i]])
-            L[A[i]] = i;
-        else
-            R[L[A[i]]] = i + 1;
-    }
     cout << Solve(Solve, 0, 2 * n + 2, 0) << '\n';
 }
 int main()

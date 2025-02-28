@@ -1,24 +1,21 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
+int rand_range(int l, int r)
+{
+    return 1ll * rand() * rand() % (r - l + 1) + l;
+}
 int main()
 {
+    // freopen("1.in", "w", stdout);
     srand(time(0));
-    int X = rand() % 10;
-    int Y = rand() % 10;
-    int n = rand() % 50 + 1;
-    int q = rand() % 10 + 10;
-    cout << X  << ' ' << Y << " " << n << " " << q << '\n';
-    for (int i = 0; i < n; ++i)
+    // int n = 2e5, q = 2e5;
+    int T = 1;
+    cout << T << '\n';
+    while (T--)
     {
-        cout << "URDL"[rand()%4] << " " << rand() % 10 + 2 << "\n";
-    }
-    for (int i = 0; i < q; ++i)
-    {
-        cout << rand() % (X + 1) << " " << rand() % (Y + 1) << ' ';
-        int l = rand() % n + 1;
-        int r = rand() % n + 1;
-        if (r < l)
-            swap(l, r);
-        cout << l << ' ' << r << '\n';
+        int n = rand_range(2, 100), k = rand_range(3, 100);
+        cout << n << ' ' << k << '\n';
+        for (int i = 1; i <= n; ++i)
+            cout << rand_range(1, 500) << ' ' << rand_range(1, 500) << '\n';
     }
 }

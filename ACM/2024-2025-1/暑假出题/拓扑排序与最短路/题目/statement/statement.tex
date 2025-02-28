@@ -1,0 +1,67 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{CJKutf8}
+\usepackage{ctex}
+\usepackage{indentfirst}
+
+\begin{document}
+    \title{Kirakira Dokidoki}
+    \author{Reina}
+    \date{\today}
+    \maketitle
+    \section*{Introduction}
+        \textbf{Reina}很喜欢\textbf{BanG Dream! It's MyGO!!!!!}中的\textbf{长崎素世}（\textbf{Nagasaki Soyo}），每次看到``\texttt{soyo}''都会闪闪发光心动不已
+
+
+        我们称\textit{心动值}为字符串中出现``\texttt{soyo}''（\textbf{区分}大小写）子串的个数
+
+        例如字符串``so\textbf{soyo}rinNangasakiSoyoChihaya\texttt{\textbf{soyo}}''的心动值为2，其中``\textbf{Soyo}''因为其中的`\textbf{S}'大写，不计入答案
+
+        \textbf{Anon}是知名的取名天才，她会为长崎素世取$n$个\textit{昵称}$S_n$，对于每一个昵称她有两种取名方法
+        \begin{enumerate}
+            \item
+            直接设定$S_i$的值为字符串$T_i$
+            \item
+            $S_i$给定一个长度为$k_i$的正整数序列$p_i$，将$S_i$的值设定为$S_{p_{i_1}} + S_{p_{i_2}} + ... + S_{p_{i_k}}$
+        \end{enumerate}
+
+
+
+        现在要求你求出每个\textit{昵称}$S_i$的\textit{心动值}
+
+
+        注意到\textbf{Anon}的命名方式很\textbf{唐}，最后求出的\textit{心动值}可能很大，最后只需要你求$S_i$的\textit{心动值}对$998~244~353$取模后的值$ans_i$
+
+        再次注意到\textbf{Anon}的命名方式很\textbf{唐}，可能会出现循环定义的情况，例如：
+        \begin{itemize}
+            \item $S_1 = S_2 + S_3$
+            \item $S_2 = S_3 + S_1$
+        \end{itemize}
+
+        这种\textit{昵称}显然\textbf{不存在/不可求}，认为\textbf{不存在/不可求}\textit{昵称}$S_i$的$ans_i$为$-1$
+
+    \section*{Input Format}
+
+        第一行包含一个整数$n$
+        $(1 \le n \le 10^5)$
+
+        之后每一行描述\textit{昵称}$S_i$，具体如下：
+        \begin{enumerate}
+            \item
+            给出一个整数$op$
+            $(op \in \{1, 2\})$
+            \item
+            若$op$为$1$，则输入一个字符串$T_i$ ($T_i$中只含\textbf{大小写字母}，$\sum |T_i| \le 2 \times 10^5$) ，表示将$S_i$设定成$T_i$
+            \item
+            若$op$为$2$，则输入首先输入一个正整数$k_i$ ($\sum{k_i} \le 10^6$)，表示序列$p_i$的长度，然后给出$k_i$个正整数$p_{i_j} $($ \forall j \in [1, k_i]$, $1 \le p_{i_j} \le n$)，表示将$S_i$的值设定为$S_{p_{i_1}} + S_{p_{i_2}} + ... + S_{p_{i_k}}$
+        \end{enumerate}
+
+
+    \section*{Output Format}
+
+        输出包含$n$行，每行一个整数表示每个\textit{昵称}$S_i$的$ans_i$ ($-1$或表示\textit{心动值}对$998~244~353$)取模后的值
+
+    \section*{Note}
+
+
+
+\end{document}

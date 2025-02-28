@@ -1,163 +1,91 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-typedef pair<int, int> Pr;
-#define End(X) return cout << (X) << '\n', void()
-bool Nai;
-int rd()
-{
-    int res = 0, f = 1;
-    char c;
-    do
-        (c = getchar()) == '-' && (f = -1);
-    while (!isdigit(c));
-    while (isdigit(c))
-        res = (c ^ 48) + (res << 1) + (res << 3), c = getchar();
-    return res * f;
+#define rep(i,j,k) for(i=j;i<=k;++i)
+#define dow(i,j,k) for(i=j;i>=k;--i)
+#define pr pair
+#define mkp make_pair
+#define fi first
+#define se second
+const int N=1e5+10;
+#define LL long long
+const LL inf=1e17;
+LL k[N],b[N],dp[N][2];
+int seg[N<<2],n,K,f[N],g[N];
+LL val(int x,LL day){return x!=0 ? day*k[x]+b[x]:-inf;}
+void build(){
+    int i;
+    rep(i,1,K<<2)seg[i]=0;
 }
-void show(auto V)
-{
-    for (int i = 0; i < V.size(); ++i)
-        cout << V[i] << " \n"[i == V.size() - 1];
-}
-namespace T
-{
-    void solve()
-    {
-        int X = rd(), Y = rd(), n = rd(), q = rd();
-        struct Solution
-        {
-            int n, limit, len;
-            vector<int> opt;
-            vector<vector<int>> key, ans_pos;
-            vector<vector<ll>> ans_step;
-            Solution(int n_, int limit_) : n(n_), limit(limit_), len(sqrt(n) + 1)
-            {
-                int blk = n / len + 1;
-                key = vector<vector<int>>(blk, {0, limit});
-                ans_pos.resize(blk);
-                ans_step.resize(blk);
-                opt.assign(n + 1, 0);
-            }
-            void work_range(int l, int r, int &pos, ll &step)
-            {
-                int now = pos;
-                for (int i = l; i <= r; ++i)
-                {
-                    int nxt = now + opt[i];
-                    nxt = max(nxt, 0);
-                    nxt = min(nxt, limit);
-                    step += abs(now - nxt);
-                    now = nxt;
-                }
-                pos = now;
-            }
-            void Build()
-            {
-                auto build_range = [&](int id, int l, int r)
-                {
-                    int now = 0;
-                    int L = 0, R = 0;
-                    auto &vec = key[id];
-                    for (int i = l; i <= r; ++i)
-                    {
-                        now += opt[i];
-                        if (-now > L)
-                        {
-                            L = -now;
-                            if (R - L >= limit)
-                                break;
-                            vec.push_back(-now);
-                        }
-                        else if (now > R)
-                        {
-                            R = now;
-                            if (R - L >= limit)
-                                break;
-                            vec.push_back(limit - now);
-                        }
-                    }
-                    sort(vec.begin(), vec.end());
-                    vec.erase(unique(vec.begin(), vec.end()), vec.end());
-                    for (auto x : vec)
-                    {
-                        ll step = 0;
-                        int pos = x;
-                        work_range(l, r, pos, step);
-                        ans_pos[id].push_back(pos);
-                        ans_step[id].push_back(step);
-                    }
-                };
-                int l = 1;
-                while (l <= n)
-                {
-                    int id = l / len;
-                    int r = (id + 1) * len - 1;
-                    if (r > n)
-                        r = n;
-                    build_range(id, l, r);
-                    l = r + 1;
-                }
-            }
-            void change(int &pos, ll &step, int ans_pos, ll ans_step)
-            {
-                pos = ans_pos;
-                step += ans_step;
-            }
-            void work_block(int id, int &pos, ll &step)
-            {
-                auto &now = key[id];
-                int m = now.size();
-                int p = lower_bound(now.begin(), now.end(), pos) - now.begin();
-                if (p == 0)
-                    return change(pos, step, ans_pos[id][0], ans_step[id][0]);
-                auto Get = [&](int l, int r, int p, auto L, auto R)
-                {
-                    if (r == l)
-                        return L;
-                    return (R - L) / (r - l) * (p - l) + L;
-                };
-                change(pos, step,
-                       Get(now[p - 1], now[p], pos, ans_pos[id][p - 1], ans_pos[id][p]),
-                       Get(now[p - 1], now[p], pos, ans_step[id][p - 1], ans_step[id][p]));
-            }
-            void Solve(int l, int r, int &pos, ll &step)
-            {
-                work_range(l, min(l - l % len + len - 1, r), pos, step);
-                for (l = l - l % len + len; l + len - 1 <= r; l += len)
-                    work_block(l / len, pos, step);
-                work_range(l, r, pos, step);
-            }
-        } SX(n, X), SY(n, Y);
-        for (int i = 1; i <= n; ++i)
-        {
-            char c = getchar();
-            int t = rd();
-            if (c == 'L')
-                SX.opt[i] = -t;
-            else if (c == 'R')
-                SX.opt[i] = t;
-            else if (c == 'D')
-                SY.opt[i] = -t;
-            else
-                SY.opt[i] = t;
-        }
-        SX.Build(), SY.Build();
-        for (int x, y, l, r; q--;)
-        {
-            ll ans = 0;
-            x = rd(), y = rd(), l = rd(), r = rd();
-            SX.Solve(l, r, x, ans);
-            SY.Solve(l, r, y, ans);
-            cout << x << ' ' << y << ' ' << ans << '\n';
-        }
+void ins(int rt,int l,int r,int id){
+    if(!seg[rt]){
+        seg[rt]=id;return;
+    }
+    LL l1=val(seg[rt],l),l2=val(id,l);
+    LL r1=val(seg[rt],r),r2=val(id,r);
+    if(l2>=l1 && r2>=r1){seg[rt]=id;return;}
+    if(l2<=l1 && r2<r1)return;
+    int mid=l+r>>1;
+    double its=(double)(b[seg[rt]]-b[id])/(double)(k[id]-k[seg[rt]]);
+    if(its<=(double)mid){
+        if(r2>=r1){ins(rt<<1,l,mid,seg[rt]);seg[rt]=id;}
+        else ins(rt<<1,l,mid,id);
+    }else{
+        if(l2>=l1){ins(rt<<1|1,mid+1,r,seg[rt]);seg[rt]=id;}
+        else ins(rt<<1|1,mid+1,r,id);
     }
 }
-bool Ri;
-int main()
-{
-    // cout << (&Ri - &Nai) / 8.0 / 1024 / 1024 << '\n';
-    // ios::sync_with_stdio(0);
-    // int t; cin >> t; while(t--)
-    T::solve();
+int query(int rt,int l,int r,int x){
+    if(l==r)return seg[rt];
+    int mid=l+r>>1;
+    if(mid>=x){
+        int r1=query(rt<<1,l,mid,x);
+        if(val(r1,x)>val(seg[rt],x))return r1;return seg[rt];
+    }else{
+        int r2=query(rt<<1|1,mid+1,r,x);
+        if(val(r2,x)>val(seg[rt],x))return r2;return seg[rt];
+    }
+}
+vector<int>t[N];
+int main(){
+    //freopen("in.txt","r",stdin);
+    ios::sync_with_stdio(false);
+    int T,i,j;cin>>T;
+    while(T--){
+        cin>>n>>K;
+        rep(i,1,n)cin>>b[i]>>k[i];
+        build();
+        rep(i,1,n)ins(1,1,K,i),t[i].clear();
+        rep(i,1,K){
+            f[i]=g[i]=0;
+            f[i]=query(1,1,K,i);
+            t[f[i]].push_back(i);
+        }
+        build();
+        rep(i,1,n){
+            for(auto v:t[i]){
+                int r=query(1,1,K,v);
+                if(val(r,v)>val(g[v],v))g[v]=r;
+            }
+            ins(1,1,K,i);
+        }
+        build();
+        dow(i,n,1){
+            for(auto v:t[i]){
+                int r=query(1,1,K,v);
+                if(val(r,v)>val(g[v],v))g[v]=r;
+            }
+            ins(1,1,K,i);
+        }
+        //rep(i,1,K)cerr<<f[i]<<' ';cerr<<'\n';
+        //rep(i,1,K)cerr<<g[i]<<' ';cerr<<'\n';
+        dp[1][1]=val(f[1],1);dp[1][0]=val(g[1],1);
+        rep(i,2,K){
+            dp[i][0]=dp[i][1]=-inf;
+            if(g[i-1]^f[i])dp[i][1]=max(dp[i][1],dp[i-1][0]+val(f[i],i));
+            if(f[i-1]^f[i])dp[i][1]=max(dp[i][1],dp[i-1][1]+val(f[i],i));
+            if(g[i-1]^g[i])dp[i][0]=max(dp[i][0],dp[i-1][0]+val(g[i],i));
+            if(f[i-1]^g[i])dp[i][0]=max(dp[i][0],dp[i-1][1]+val(g[i],i));
+        }
+        cout<<max(dp[K][0],dp[K][1])<<'\n';
+    }
 }

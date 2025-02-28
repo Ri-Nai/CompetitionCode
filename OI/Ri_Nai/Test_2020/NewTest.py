@@ -9,7 +9,7 @@ int main()
 	FCLS();
 }"""
 mypath=os.getcwd();
-s="叶子宁"
+s=""
 os.mkdir(os.path.join(mypath,s))
 mypath=os.path.join(mypath,s)
 a=input().split()
